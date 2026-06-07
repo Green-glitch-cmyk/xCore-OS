@@ -1,0 +1,922 @@
+/* xCore OS - Windows 8 Style */
+/* Без градиентов, без скруглений, только Segoe UI */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    font-weight: 400;
+    overflow: hidden;
+    height: 100vh;
+    background: #1b3a4b;
+}
+
+/* ФОН (простой, без эффектов) */
+.bg-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1b3a4b;
+    z-index: -2;
+}
+
+.noise {
+    display: none;
+}
+
+/* БОКОВАЯ ПАНЕЛЬ */
+.side-panel {
+    position: fixed;
+    left: -320px;
+    top: 0;
+    width: 320px;
+    height: 100%;
+    background: #2b5797;
+    z-index: 1000;
+    transition: 0.3s;
+    display: flex;
+    flex-direction: column;
+    border-right: none;
+    padding-top: 50px;
+}
+
+.side-panel.open {
+    left: 0;
+}
+
+.panel-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.panel-logo {
+    font-size: 24px;
+    font-weight: normal;
+    color: white;
+    -webkit-text-fill-color: white;
+    background: none;
+}
+
+.panel-close {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    opacity: 0.7;
+}
+
+.panel-close:hover {
+    opacity: 1;
+}
+
+.panel-menu {
+    flex: 1;
+    padding: 20px;
+}
+
+.panel-item {
+    padding: 12px 15px;
+    margin: 5px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+    color: white;
+    border-radius: 0px;
+}
+
+.panel-item:hover {
+    background: #1e4d7b;
+}
+
+.panel-icon {
+    font-size: 18px;
+    width: 25px;
+}
+
+.panel-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: #1e4d7b;
+    margin-bottom: 15px;
+}
+
+.user-avatar {
+    font-size: 28px;
+}
+
+.user-name {
+    font-size: 14px;
+    color: white;
+}
+
+.panel-shutdown {
+    width: 100%;
+    padding: 10px;
+    background: #9c3a6b;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    border-radius: 0px;
+}
+
+.panel-shutdown:hover {
+    background: #7a2d53;
+}
+
+/* ОСНОВНОЙ ЭКРАН */
+.main-screen {
+    margin-left: 0;
+    transition: 0.3s;
+    height: 100vh;
+    overflow-y: hidden;
+    padding: 60px 40px 0 40px;
+}
+
+.side-panel.open ~ .main-screen {
+    margin-left: 320px;
+}
+
+/* ВЕРХНЯЯ ПАНЕЛЬ (прилипает к экрану) */
+.top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 40px;
+    background: #2b5797;
+    z-index: 100;
+}
+
+.menu-toggle {
+    width: 30px;
+    height: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.menu-toggle span {
+    height: 3px;
+    background: white;
+    border-radius: 0px;
+}
+
+.search-bar {
+    flex: 1;
+    max-width: 300px;
+    margin: 0 20px;
+    position: relative;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    opacity: 0.7;
+}
+
+#globalSearch {
+    width: 100%;
+    padding: 6px 10px 6px 35px;
+    background: #1e4d7b;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    font-size: 14px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    border-radius: 0px;
+}
+
+#globalSearch:focus {
+    outline: none;
+    border-color: white;
+}
+
+#globalSearch::placeholder {
+    color: rgba(255,255,255,0.5);
+}
+
+.system-tray {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.tray-icon {
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.datetime {
+    text-align: right;
+}
+
+.time {
+    font-size: 14px;
+    font-weight: normal;
+    color: white;
+}
+
+.date {
+    font-size: 10px;
+    color: white;
+    opacity: 0.7;
+}
+
+/* ПРИВЕТСТВИЕ */
+.welcome-section {
+    margin-bottom: 30px;
+}
+
+.greeting {
+    font-size: 32px;
+    font-weight: normal;
+    color: white;
+    background: none;
+    -webkit-text-fill-color: white;
+    margin-bottom: 5px;
+}
+
+.subgreeting {
+    color: white;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+/* СЕТКА ПЛИТОК */
+.tiles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.tile {
+    background: #2b5797;
+    border: none;
+    border-radius: 0px;
+    padding: 20px;
+    cursor: pointer;
+    transition: 0.1s;
+    position: relative;
+}
+
+.tile:hover {
+    background: #3a6ea5;
+}
+
+.tile:active {
+    background: #1e4d7b;
+}
+
+.tile-bg {
+    display: none;
+}
+
+.tile-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: white;
+}
+
+.tile-title {
+    font-size: 16px;
+    font-weight: normal;
+    color: white;
+}
+
+.tile-desc {
+    font-size: 11px;
+    color: white;
+    opacity: 0.7;
+    margin-top: 5px;
+}
+
+.tile-live {
+    font-size: 20px;
+    margin-top: 10px;
+    color: white;
+}
+
+/* РАЗМЕРЫ ПЛИТОК */
+.tile.wide {
+    grid-column: span 2;
+}
+
+.tile.large {
+    grid-row: span 2;
+    grid-column: span 2;
+}
+
+.tile.accent {
+    background: #9c3a6b;
+}
+
+.tile.accent:hover {
+    background: #b84a7a;
+}
+
+.tile.green {
+    background: #2e8b57;
+}
+
+.tile.green:hover {
+    background: #3aa56a;
+}
+
+.tile.purple {
+    background: #6b3a9c;
+}
+
+.tile.purple:hover {
+    background: #7f4ab0;
+}
+
+/* РЕКОМЕНДАЦИИ */
+.recommendations {
+    margin-top: 20px;
+}
+
+.recommendations h3 {
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 10px;
+    color: white;
+    opacity: 0.8;
+}
+
+.rec-list {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.rec-item {
+    background: #2b5797;
+    border: none;
+    border-radius: 0px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 13px;
+    color: white;
+}
+
+.rec-item:hover {
+    background: #3a6ea5;
+}
+
+/* ОКНА (строгий Win8 стиль) */
+.window {
+    position: fixed;
+    background: #f0f0f0;
+    border-radius: 0px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 200;
+    min-width: 400px;
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.window-header {
+    padding: 10px 15px;
+    background: #2b5797;
+    cursor: move;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: none;
+}
+
+.window-title {
+    font-weight: normal;
+    color: white;
+    font-size: 14px;
+}
+
+.window-close {
+    cursor: pointer;
+    background: #9c3a6b;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+}
+
+.window-close:hover {
+    background: #7a2d53;
+}
+
+.window-content {
+    flex: 1;
+    padding: 15px;
+    overflow: auto;
+    background: white;
+    color: #333;
+}
+
+/* УВЕДОМЛЕНИЯ */
+.notifications {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1100;
+}
+
+.notification {
+    background: #2b5797;
+    border-left: 4px solid #9c3a6b;
+    border-radius: 0px;
+    padding: 10px 15px;
+    margin-top: 8px;
+    min-width: 220px;
+    color: white;
+    font-size: 12px;
+}
+
+/* КАЛЬКУЛЯТОР */
+.app-calc {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    padding: 10px;
+    max-width: 250px;
+}
+
+.app-calc button {
+    padding: 15px;
+    font-size: 16px;
+    background: #2b5797;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    border-radius: 0px;
+}
+
+.app-calc button:hover {
+    background: #3a6ea5;
+}
+
+.app-calc .display {
+    grid-column: span 4;
+    padding: 15px;
+    font-size: 20px;
+    text-align: right;
+    background: #1a1a1a;
+    color: white;
+    font-family: monospace;
+}
+
+/* ЗАМЕТКИ */
+.app-notes textarea {
+    width: 100%;
+    height: 250px;
+    padding: 10px;
+    font-size: 14px;
+    font-family: monospace;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+}
+
+.app-notes button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background: #2b5797;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-right: 8px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    border-radius: 0px;
+}
+
+.app-notes button:hover {
+    background: #3a6ea5;
+}
+
+/* БРАУЗЕР */
+.app-browser input {
+    padding: 6px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 0px;
+}
+
+.app-browser button {
+    padding: 6px 12px;
+    background: #2b5797;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 0px;
+}
+
+.app-browser iframe {
+    border: 1px solid #ccc;
+}
+
+/* ОБОИ */
+.app-wallpapers button {
+    display: block;
+    width: 100%;
+    margin: 8px 0;
+    padding: 10px;
+    background: #2b5797;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    border-radius: 0px;
+}
+
+.app-wallpapers button:hover {
+    background: #3a6ea5;
+}
+
+/* СКРОЛЛБАР (Win8 стиль) */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #e0e0e0;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2b5797;
+    border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #1e4d7b;
+}
+
+/* АНИМАЦИИ (минимальные) */
+.tile {
+    transition: 0.05s linear;
+}
+
+/* АДАПТИВНОСТЬ */
+@media (max-width: 900px) {
+    .tiles-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .search-bar {
+        display: none;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-screen {
+        padding: 60px 15px 0 15px;
+    }
+    
+    .tiles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .datetime {
+        display: none;
+    }
+}
+
+/* Настройки */
+.app-settings button {
+    background: #2b5797;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+.app-settings button:hover {
+    background: #3a6ea5;
+}
+
+/* Список приложений */
+.app-appslist button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 5px 0;
+    background: #2b5797;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.app-appslist button:hover {
+    background: #3a6ea5;
+}
+
+/* ========== АНИМАЦИИ xCore OS ========== */
+
+/* ПЛИТКИ ПРИ ЗАГРУЗКЕ - появление с масштабом */
+@keyframes tileAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.7);
+    }
+    60% {
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.tile {
+    animation: tileAppear 0.4s cubic-bezier(0.34, 1.2, 0.64, 1) forwards;
+    opacity: 0;
+}
+
+/* Задержки для каждой плитки */
+.tile:nth-child(1) { animation-delay: 0.00s; }
+.tile:nth-child(2) { animation-delay: 0.05s; }
+.tile:nth-child(3) { animation-delay: 0.10s; }
+.tile:nth-child(4) { animation-delay: 0.15s; }
+.tile:nth-child(5) { animation-delay: 0.20s; }
+.tile:nth-child(6) { animation-delay: 0.25s; }
+.tile:nth-child(7) { animation-delay: 0.30s; }
+.tile:nth-child(8) { animation-delay: 0.35s; }
+.tile:nth-child(9) { animation-delay: 0.40s; }
+.tile:nth-child(10) { animation-delay: 0.45s; }
+
+/* ПРИВЕТСТВИЕ */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.welcome-section {
+    animation: fadeInUp 0.5s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+/* ВЕРХНЯЯ ПАНЕЛЬ */
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.top-bar {
+    animation: slideDown 0.4s ease-out forwards;
+}
+
+/* БОКОВАЯ ПАНЕЛЬ */
+@keyframes slideInLeft {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.side-panel.open {
+    animation: slideInLeft 0.3s ease-out;
+}
+
+/* CHARMS ПАНЕЛЬ */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.charms-bar.active {
+    animation: slideInRight 0.3s ease-out;
+}
+
+/* ОКНА */
+@keyframes windowAppear {
+    0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.window {
+    animation: windowAppear 0.25s ease-out forwards;
+}
+
+/* КНОПКИ ПРИ НАВЕДЕНИИ */
+.tile, .panel-item, .rec-item, button, .taskbar-app, .start-button {
+    transition: all 0.1s linear;
+}
+
+.tile:active {
+    transform: scale(0.97);
+    transition: 0.02s linear;
+}
+
+/* УВЕДОМЛЕНИЯ */
+@keyframes notificationSlide {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification {
+    animation: notificationSlide 0.3s ease-out forwards;
+}
+
+/* РЕКОМЕНДАЦИИ */
+.recommendations {
+    animation: fadeInUp 0.4s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+.rec-item {
+    animation: tileAppear 0.3s ease-out forwards;
+    animation-delay: calc(0.4s + var(--i, 0) * 0.05s);
+    opacity: 0;
+}
+
+.rec-item:nth-child(1) { --i: 1; }
+.rec-item:nth-child(2) { --i: 2; }
+.rec-item:nth-child(3) { --i: 3; }
+
+/* СИСТЕМНЫЙ ТРЕЙ */
+.tray-icon {
+    transition: all 0.2s ease;
+}
+
+.tray-icon:hover {
+    transform: scale(1.1);
+}
+
+/* ЧАСЫ И ДАТА */
+.time, .date {
+    transition: all 0.2s;
+}
+
+/* ПАНЕЛЬ ЗАДАЧ (ОКНА В TASKBAR) */
+.taskbar-app {
+    transition: all 0.1s linear;
+}
+
+.taskbar-app:active {
+    transform: scale(0.95);
+}
+
+/* ЗАКРЫТИЕ ОКНА (анимация исчезновения) */
+.window.closing {
+    animation: windowClose 0.2s ease-out forwards;
+}
+
+@keyframes windowClose {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.9);
+        display: none;
+    }
+}
+
+/* ПУЛЬСАЦИЯ ДЛЯ ЖИВЫХ ПЛИТОК */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.tile-live {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* МИГАНИЕ КУРСОРА В ПОИСКЕ */
+@keyframes blink {
+    0%, 100% { border-color: rgba(255,255,255,0.2); }
+    50% { border-color: white; }
+}
+
+#globalSearch:focus {
+    animation: blink 0.8s ease-in-out infinite;
+}
+
+/* ЗАГРУЗОЧНЫЙ ЭКРАН (опционально) */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* АНИМАЦИЯ ПРИ НАЖАТИИ НА ПЛИТКУ (эффект волны) */
+.tile {
+    position: relative;
+    overflow: hidden;
+}
+
+.tile::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
+}
+
+.tile:active::after {
+    width: 200%;
+    height: 200%;
+}
+
+/* АНИМАЦИЯ ДЛЯ БУРГЕРА */
+.menu-toggle span {
+    transition: all 0.2s ease;
+}
+
+.menu-toggle:hover span:nth-child(1) {
+    transform: translateY(-2px);
+}
+
+.menu-toggle:hover span:nth-child(3) {
+    transform: translateY(2px);
+}
+
+/* АНИМАЦИЯ ДЛЯ КНОПКИ ЗАКРЫТИЯ */
+.window-close {
+    transition: all 0.1s linear;
+}
+
+.window-close:active {
+    transform: scale(0.85);
+}
+
+/* АНИМАЦИЯ ДЛЯ SCROLLBAR (плавное появление) */
+::-webkit-scrollbar-thumb {
+    transition: background 0.2s;
+}
