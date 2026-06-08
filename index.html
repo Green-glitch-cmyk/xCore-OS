@@ -3,145 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="version" content="os-070626">
-    <meta name="status" content="pre-alpha">
-    <title>xCore OS | NextGen Metro</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Загрузка xCore OS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI Light', 'Segoe UI', 'Arial', sans-serif;
+            background: #000000;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+        }
+
+        /* ЛОГОТИП */
+        .logo {
+            font-family: 'Segoe UI Light', 'Segoe UI', 'Arial', sans-serif;
+            font-size: 80px;
+            font-weight: 300;
+            color: #ffffff;
+            letter-spacing: 4px;
+            margin-bottom: 80px;
+        }
+
+        /* ПРОГРЕСС-БАР */
+        .progress-bar-container {
+            background: rgba(255, 255, 255, 0.15);
+            height: 4px;
+            width: 100%;
+            margin: 0;
+        }
+
+        .progress-bar {
+            background: #ffcc00;
+            height: 100%;
+            width: 0%;
+            transition: width 0.15s linear;
+        }
+
+        /* ПРОЦЕНТЫ */
+        .percentage {
+            font-family: 'Segoe UI Light', 'Segoe UI', 'Arial', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 12px;
+            letter-spacing: 1px;
+        }
+
+        /* Исчезновение */
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+
+        body.fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+    </style>
 </head>
 <body>
-    <!-- ФОН С ЭФФЕКТОМ -->
-    <div class="bg-layer" id="bgLayer"></div>
-    <div class="noise"></div>
-
-    <!-- БОКОВАЯ ПАНЕЛЬ (НОВЫЙ GUI) -->
-    <div class="side-panel" id="sidePanel">
-        <div class="panel-header">
-            <div class="panel-logo">⚡ xCore</div>
-            <div class="panel-close" id="panelClose">✕</div>
+    <div class="loading-container">
+        <div class="logo">XOS</div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progressBar"></div>
         </div>
-        <div class="panel-menu">
-            <div class="panel-item" data-action="home">
-                <span class="panel-icon">🏠</span>
-                <span>Главный экран</span>
-            </div>
-            <div class="panel-item" data-action="apps">
-                <span class="panel-icon">📦</span>
-                <span>Все приложения</span>
-            </div>
-            <div class="panel-item" data-action="settings">
-                <span class="panel-icon">⚙️</span>
-                <span>Параметры</span>
-            </div>
-            <div class="panel-item" data-action="wallpapers">
-                <span class="panel-icon">🖼️</span>
-                <span>Обои</span>
-            </div>
-            <div class="panel-item" data-action="about">
-                <span class="panel-icon">ℹ️</span>
-                <span>О системе</span>
-            </div>
-        </div>
-        <div class="panel-footer">
-            <div class="user-info">
-                <span class="user-avatar">👤</span>
-                <span class="user-name">xCore User</span>
-            </div>
-            <button class="panel-shutdown" id="shutdownBtn">⏻ Выход</button>
-        </div>
+        <div class="percentage" id="percentage">0%</div>
     </div>
 
-    <!-- ОСНОВНОЙ ЭКРАН -->
-    <div class="main-screen" id="mainScreen">
-        <!-- ВЕРХНЯЯ ПАНЕЛЬ -->
-        <div class="top-bar">
-            <div class="menu-toggle" id="menuToggle">
-                <span></span><span></span><span></span>
-            </div>
-            <div class="search-bar">
-                <span class="search-icon">🔍</span>
-                <input type="text" placeholder="Поиск в xCore..." id="globalSearch">
-            </div>
-            <div class="system-tray">
-                <div class="tray-icon" id="weatherIcon">🌤️</div>
-                <div class="tray-icon" id="batteryIcon">🔋 98%</div>
-                <div class="tray-icon" id="wifiIcon">📶</div>
-                <div class="datetime">
-                    <div class="time" id="clock">--:--</div>
-                    <div class="date" id="date">--.--.--</div>
-                </div>
-            </div>
-        </div>
+    <script>
+        let progress = 0;
+        const progressBar = document.getElementById('progressBar');
+        const percentageEl = document.getElementById('percentage');
 
-        <!-- ПРИВЕТСТВИЕ -->
-        <div class="welcome-section">
-            <h1 class="greeting" id="greeting">Добро пожаловать</h1>
-            <p class="subgreeting">xCore OS — твоя личная система</p>
-        </div>
+        function updateLoading() {
+            if (progress < 100) {
+                progress += Math.random() * 12 + 4;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                percentageEl.textContent = Math.floor(progress) + '%';
+                
+                const delay = progress < 80 ? 60 : 40;
+                setTimeout(updateLoading, delay);
+            } else {
+                document.body.classList.add('fade-out');
+                setTimeout(() => {
+                    window.location.href = 'os.html';
+                }, 300);
+            }
+        }
 
-        <!-- ЖИВЫЕ ПЛИТКИ -->
-        <div class="tiles-grid" id="tilesGrid">
-            <div class="tile live-tile" data-app="weather">
-                <div class="tile-bg"></div>
-                <div class="tile-content">
-                    <div class="tile-icon">🌤️</div>
-                    <div class="tile-title">Погода</div>
-                    <div class="tile-live" id="weatherTemp">Загрузка...</div>
-                </div>
-            </div>
-
-            <div class="tile" data-app="calc">
-                <div class="tile-icon">🧮</div>
-                <div class="tile-title">Калькулятор</div>
-            </div>
-
-            <div class="tile wide" data-app="notes">
-                <div class="tile-icon">📝</div>
-                <div class="tile-title">Заметки</div>
-                <div class="tile-desc">Быстрые записи</div>
-            </div>
-
-            <div class="tile accent" data-app="browser">
-                <div class="tile-icon">🌐</div>
-                <div class="tile-title">xCore Browser</div>
-            </div>
-
-            <div class="tile large" data-app="media">
-                <div class="tile-icon">🎵</div>
-                <div class="tile-title">Медиа</div>
-                <div class="tile-desc">Музыка и видео</div>
-            </div>
-
-            <div class="tile green" data-app="files">
-                <div class="tile-icon">📁</div>
-                <div class="tile-title">Файлы</div>
-            </div>
-
-            <div class="tile purple" data-app="terminal">
-                <div class="tile-icon">💻</div>
-                <div class="tile-title">Терминал</div>
-            </div>
-        </div>
-
-        <!-- РЕКОМЕНДАЦИИ -->
-        <div class="recommendations">
-            <h3>Рекомендуем</h3>
-            <div class="rec-list">
-                <div class="rec-item" data-app="store">📦 xCore Store</div>
-                <div class="rec-item" data-app="games">🎮 Игры</div>
-                <div class="rec-item" data-app="draw">🎨 Рисование</div>
-            </div>
-        </div>
-    </div>
-
-    <!-- КОНТЕЙНЕР ОКОН -->
-    <div id="windowsContainer"></div>
-
-    <!-- УВЕДОМЛЕНИЯ -->
-    <div class="notifications" id="notifications"></div>
-
-    <script src="system/boot.js"></script>
-    <script src="system/kernel.js"></script>
-    <script src="system/storage.js"></script>
-    <script src="script.js"></script>
+        setTimeout(updateLoading, 100);
+    </script>
 </body>
 </html>

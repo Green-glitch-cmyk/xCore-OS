@@ -3,8 +3,8 @@
 
 const xCore = {
     name: 'xCore OS',
-    version: 'os-070626',
-    status: 'pre-alpha',
+    version: '1.1.0',
+    status: 'alpha',
     releaseDate: '2026-06-07',
     wallpaper: 0,
     windows: [],
